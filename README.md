@@ -14,7 +14,7 @@ Follow the [official MoveIt2 installation guide](https://moveit.picknik.ai/humbl
 # :hammer: Build
 1. Clone the repository in the `src` folder of your ROS 2 workspace.  If you want to only clone the content files without creating the repo folder, use
 ```
-git clone https://github.com/Robertorocco/Pick_Place_Blocksworld_Environment.git -b no_gripper
+git clone https://github.com/Robertorocco/Pick_Place_Blocksworld_Environment.git -b without_gripper
 ```
 2. Build the workspace
 ```
