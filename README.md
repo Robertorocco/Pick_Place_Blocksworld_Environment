@@ -41,7 +41,7 @@ Superuser permissions are requested. If you want to avoid invoking sudo you can 
 1. Clone the repository containing Dockerfile and scripts to build and tun the image into a local folder:
 
 ```
-git clone https://github.com/Robertorocco/MoveIt-Docker.GIT
+git clone https://github.com/Robertorocco/MoveIt-Docker.git
 cd MoveIt-Docker
 ```
 2. Inside the terminal of the cloned repo make all the bash files executable:
