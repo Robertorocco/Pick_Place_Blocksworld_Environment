@@ -14,7 +14,7 @@ Follow the [official MoveIt2 installation guide](https://moveit.picknik.ai/humbl
 # :hammer: Build
 1. Clone the repository in the `src` folder of your ROS 2 workspace.  If you want to only clone the content files without creating the repo folder, use
 ```
-git clone https://github.com/chiarapanagrosso/RPick_Place_Blocksworld_Environment.git -b no_gripper
+git clone https://github.com/Robertorocco/Pick_Place_Blocksworld_Environment.git -b no_gripper
 ```
 2. Build the workspace
 ```
@@ -36,7 +36,7 @@ Docker installed on your system. You can get it from the [official Docker websit
 1. Clone the repository containing Dockerfile and scripts to build and tun the image into a local folder:
 
 ```
-git clone https://github.com/chiarapanagrosso/MoveIt-Docker.git
+git clone https://github.com/Robertorocco/MoveIt-Docker.git
 cd MoveIt-Docker
 ```
 2. Inside the terminal of the cloned repo make all the bash files executable:
