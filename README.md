@@ -44,13 +44,13 @@ cd MoveIt-Docker
 ```
 2. Inside the terminal of the cloned repo make all the bash files executable:
 ```sh
-$ chmod +x *.sh
+chmod +x *.sh
 ```
 
 3. Build the image: 
 
 ```
-$ ./docker_build_image.sh <IMAGE_NAME>
+./docker_build_image.sh <IMAGE_NAME>
 ```
 where <IMAGE_NAME> is a name for the image you want to build. The build will take at least 1 hour.
 If you have up to 16Gb of RAM you and want to speed building of the image you can substitute inside the Dockerfile the following line:
@@ -102,7 +102,7 @@ ros2 run mtc_package manager
 3. Once the console shows the message from `mtc_node` saying **"Parsing the plan..."**, in another terminal you can launch the **HTN Planner**, which will generate the sequence of tasks to be performed, with the following:
 
 ```
-$ ros2 launch blocksword_planner htn_launch.py 
+ros2 launch blocksword_planner htn_launch.py 
 ``` 
 
 ## :warning: Warning
