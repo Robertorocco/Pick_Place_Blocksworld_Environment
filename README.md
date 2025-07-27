@@ -11,6 +11,12 @@ The goal of this project is to enable a **Universal Robots UR5e** robotic manipu
 
 The entire execution pipeline is built on **ROS 2** and integrates high-level symbolic planning with low-level motion planning and execution.
 
+## 📄 Documentation
+
+Full documentation of the project is avaible in PDF formato
+
+**[PDF Documentation](./documentation.pdf)**
+
 ## Core Technologies
 
 * **Robot**: Universal Robots UR5e
