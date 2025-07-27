@@ -13,9 +13,9 @@ The entire execution pipeline is built on **ROS 2** and integrates high-level sy
 
 ## 📄 Documentation
 
-Full documentation of the project is avaible in PDF formato
+Full documentation of the project is aviable in PDF format
 
-**[PDF Documentation](./documentation.pdf)**
+**[PDF Documentation](./Documentation.pdf)**
 
 ## Core Technologies
 
