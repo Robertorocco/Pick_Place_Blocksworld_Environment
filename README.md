@@ -1,12 +1,53 @@
 # Pick and Place in a Blocksworld Environment using HTN Planning and MoveIt
 
-## :package: About
-
-This package contains the developed code for the final project of the Planning and Navigation 2024/25 Course. The authors of the package are:
-Chiara Panagrosso, Roberto Rocco, William Notaro. Here's an example video
-
 https://private-user-images.githubusercontent.com/182740140/467962562-0d6c1e1e-ce1d-46a5-9862-abccb1980fe2.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI4MzIxMDMsIm5iZiI6MTc1MjgzMTgwMywicGF0aCI6Ii8xODI3NDAxNDAvNDY3OTYyNTYyLTBkNmMxZTFlLWNlMWQtNDZhNS05ODYyLWFiY2NiMTk4MGZlMi5tcDQ_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzE4JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcxOFQwOTQzMjNaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04NDE2NmU0MWQxNDBkNTM3ZjdkMmMzNmU1ZGZiNjlkODA4YTJmZmFlZDQzYjFkZGM1ZDg0N2ExMWVjYmRhNjBiJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.PxCx_JmYlHH0dlaoo6u91ZOYYkAP6NSsMMZrTjmxWW8
 
+---
+
+## 🤖 Project Overview
+
+
+The goal of this project is to enable a **Universal Robots UR5e** robotic manipulator to autonomously perform pick & place tasks in a blocksworld-like environment. The system takes an initial configuration of blocks within a **Gazebo** world and a specified symbolic goal state. It then computes and executes the sequence of physical actions required to move the blocks to their target locations, including stacking them on top of one another.
+
+The entire execution pipeline is built on **ROS 2** and integrates high-level symbolic planning with low-level motion planning and execution.
+
+## Core Technologies
+
+* **Robot**: Universal Robots UR5e
+* **Simulation**: Gazebo for blocksworld building
+* **Planning Paradigms**: Hierarchical Task Network (HTN), MoveIt Task Constructor (MTC), Replanning strategy
+
+## ✨ Key Features & Pipeline
+
+The system operates through a series of distinct, high-level steps:
+
+### 1. Symbolic State Generation
+
+* **Gazebo to ROS Bridge**: A custom Gazebo plugin (`PoseRelayPlugin`) was developed to read the geometric poses of all blocks in the simulation. This plugin publishes the block positions and orientations on a ROS 2 topic (`/object_pose`).
+* **Geometric to Symbolic Conversion**: An algorithm converts the continuous 3D coordinates of the blocks into a discrete, symbolic state. It uses heuristics based on the blocks' known height to determine predicates like `on(A, B)` or `on(A, table)`. This removes the need to manually specify the initial state for the planner.
+
+### 2. Hierarchical Task Network (HTN) Planning
+
+* **High-Level Task Decomposition**: An HTN planner is used to compute the sequence of actions. The planner decomposes abstract tasks (e.g., `move_blocks`) into simpler, primitive actions (e.g., `pickup`, `unstack`, `stack`) using predefined methods.
+* **Plan Publication**: Once decomposition is complete, the planner generates a linear sequence of primitive actions. This plan is serialized and published to a ROS 2 topic (`/pyhop_plan`) for the motion controller.
+
+### 3. Motion Execution with MoveIt Task Constructor (MTC)
+
+* **Symbolic-to-Motion Mapping**: A dedicated ROS 2 node (`mtc_node.cpp`) subscribes to the plan topic and partitions the actions into sequential pick-and-place pairs.
+* **Task Execution**: Each pair is executed as a composite task within the **MoveIt Task Constructor** (MTC). MTC handles the complex sequence of sub-tasks, including moving to grasp, lifting, attaching the object, and placing it at a target location.
+* **Collision Management**: The system dynamically updates MoveIt's `PlanningScene` with block locations from Gazebo and uses an `AllowedCollisionMatrix` to prevent false-positive collisions during planning.
+
+### 4. Gripper Integration: Virtual and Realistic
+
+* **Gripper-less "Fake Hand"**: The initial implementation works without a physical gripper. A "fake hand" (a virtual link) was created to satisfy MoveIt's requirements. Grasping is simulated by virtually attaching the object's frame to the fake hand's frame.
+* **Realistic Gripper Integration**: The project was extended to integrate a **Robotiq 2-Finger 85 Gripper**. This involved re-enabling gravity and using the gripper's physical dynamics, which provides more stable placements at the cost of higher computational load in Gazebo.
+
+### 5. Replanning for Failure Recovery
+
+* **State Monitoring**: A manager node supervises the execution to handle failures.
+* **Failure Detection**: Before executing each task, the system checks if the *actual* symbolic state (from Gazebo) matches the *expected* state from the original plan.
+* **Recovery**: If a mismatch is detected, the current task is terminated. The planner is re-invoked to compute a new plan from the current state, allowing the system to recover from errors and adapt.
+  
 ## :clipboard: Requirements
 This package **requires MoveIt2 to be pre-installed** on your system. 
 :point_right: Follow the [official MoveIt2 installation guide](https://moveit.picknik.ai/humble/doc/tutorials/getting_started/getting_started.html) to set it up properly.
