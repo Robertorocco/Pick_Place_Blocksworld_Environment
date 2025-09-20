@@ -164,4 +164,6 @@ This is caused by the unsuccessful update of the GZ_SIM_RESOURCE_PATH environmen
 ```
 export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:~/ros2_ws/src/ros2_robotiq_gripper/
 ```
+export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:~/ros2_ws/src/Universal_Robots_ROS2_Description-humble/gazebo/models:~/ws_git/src/ros2_robotiq_gripper/
+export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:~/ros2_ws/install/ur_description/share/
 
